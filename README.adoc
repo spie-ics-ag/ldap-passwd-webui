@@ -46,6 +46,7 @@ Read the next sections to learn how to run it.
 * Python 3.x
 * {pypi-url}/bottle/[bottle]
 * {pypi-url}/ldap3[ldap3] 2.x
+* {pypi-url}/itsdangerous[itsdangerous]
 
 
 == Configuration
