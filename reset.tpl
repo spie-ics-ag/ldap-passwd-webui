@@ -13,25 +13,18 @@
 
   <body>
     <main>
-      <h1>{{ page_title }}</h1>
+      <h1>Set new password</h1>
 
       <form method="post">
-        <label for="username">Username</label>
-        <input id="username" name="username" value="{{ get('username', '') }}" type="text" required autofocus>
-
-        <label for="old-password">Old password</label>
-        <input id="old-password" name="old-password" type="password">
-
         <label for="new-password">New password</label>
         <input id="new-password" name="new-password" type="password"
-            pattern=".{8,}" oninvalid="SetCustomValidity('Password must be at least 8 characters long.')">
+            pattern=".{8,}" oninvalid="SetCustomValidity('Password must be at least 8 characters long.')" required>
 
         <label for="confirm-password">Confirm new password</label>
         <input id="confirm-password" name="confirm-password" type="password"
-            pattern=".{8,}" oninvalid="SetCustomValidity('Password must be at least 8 characters long.')">
+            pattern=".{8,}" oninvalid="SetCustomValidity('Password must be at least 8 characters long.')" required>
 
-        <button type="submit">Update password</button>
-        <button formaction="/reset" type="submit">Forgot password</button>
+        <button type="submit">Reset password</button>
       </form>
 
       <div class="alerts">
