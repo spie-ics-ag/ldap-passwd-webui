@@ -37,3 +37,5 @@ port = 8080
 #admin_user = cn=admin_user,ou=admin,ou=People,dc=example,dc=org
 #admin_pass = secret_admin_password
 #mail_relay = mail.example.org
+#mail_sender = ldappw@example.org
+#mail_subject = Password reset request

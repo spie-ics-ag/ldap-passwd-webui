@@ -79,8 +79,8 @@ def send_password_reset_email():
 
 def send_email(password_reset_url, mail):
     msg = EmailMessage()
-    msg['Subject'] = 'Password reset request'
-    msg['From'] = 'ldappw@spie.com'
+    msg['Subject'] = CONF['app']['mail_subject']
+    msg['From'] = CONF['app']['mail_sender']
     msg['To'] = mail
     msg.set_content(CONF['app']['base_url'] + password_reset_url)
 
