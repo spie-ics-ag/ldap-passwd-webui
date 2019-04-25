@@ -2,7 +2,7 @@
 
 import bottle
 from bottle import get, post, static_file, request, route, template
-from bottle import SimpleTemplate
+from bottle import SimpleTemplate, abort
 from configparser import ConfigParser
 from ldap3 import Connection, Server
 from ldap3 import SIMPLE, SUBTREE
@@ -91,7 +91,12 @@ def send_email(password_reset_url, mail):
 
 @get('/reset/<token>')
 def reset(token):
-    return reset_tpl()
+    try:
+        password_reset_serializer = URLSafeTimedSerializer(CONF['app']['secret_key'])
+        username = password_reset_serializer.loads(token, salt='mmmmhm-soooo-salty', max_age=3600)
+        return reset_tpl()
+    except:
+        return abort(404, "Not found: '/%s'" % token)
 
 
 @post('/reset/<token>', name='reset_with_token')
@@ -108,7 +113,10 @@ def reset_with_token(token):
         with connect_ldap(CONF['ldap:0'], authentication=SIMPLE, user=CONF['app']['admin_user'], password=CONF['app']['admin_pass']) as c:
             c.bind()
             user_dn = find_user_dn(CONF['ldap:0'], c, username)
-            c.extend.microsoft.modify_password(user_dn, form('new-password'))
+            if CONF['ldap:0']['type'] == 'ad':
+                c.extend.microsoft.modify_password(user_dn, form('new-password'))
+            else:
+                c.extend.standard.modify_password(user_dn, form('new-password'))
 
         LOG.info("Password has been reseted for user: %s" % username)
         return reset_tpl(alerts=[('success', "New password has been set")])
