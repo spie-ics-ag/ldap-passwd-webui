@@ -116,7 +116,7 @@ def reset_with_token(token):
             if CONF['ldap:0']['type'] == 'ad':
                 c.extend.microsoft.modify_password(user_dn, form('new-password'))
             else:
-                c.extend.standard.modify_password(user_dn, form('new-password'))
+                c.extend.standard.modify_password(user=user_dn, new_password=form('new-password'))
 
         LOG.info("Password has been reseted for user: %s" % username)
         return reset_tpl(alerts=[('success', "New password has been set")])
@@ -222,10 +222,10 @@ def find_user_dn(conf, conn, uid):
 
 def check_user_mail(username):
     with connect_ldap(CONF['ldap:0'], authentication=SIMPLE, user=CONF['app']['admin_user'], password=CONF['app']['admin_pass']) as c:
-        c.bind()
-        c.search(CONF['ldap:0']['base'], "(cn=%s)" % username, SUBTREE, attributes=['mail'])
+        search_filter = CONF['ldap:0']['search_filter'].replace('{uid}', username)
+        c.search(CONF['ldap:0']['base'], '(%s)' % search_filter, SUBTREE, attributes=['mail'])
 
-        return c.response[0]['attributes']['mail'] if 'attributes' in c.response[0] else None
+        return c.response[0]['attributes']['mail'] if c.response and 'attributes' in c.response[0] else None
 
 def read_config():
     config = ConfigParser()
