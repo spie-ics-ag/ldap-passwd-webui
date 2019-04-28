@@ -27,15 +27,15 @@ host = localhost
 port = 8080
 
 # Configuration for password reset functionality
-# "base_url" should match the URL used to request the app
 # "secret_key" is used to generate random url's for password reset requests
 # "admin_user" and "admin_pass" represents the user credentials used to do the password reset. Furthermore, if you set "force_auth = true" inside the [ldap:*] section, "admin_user" and "admin_pass" are used to lookup the full DN
 # "mail_relay" is the relay used to send password reset emails
+# "mail_sender" email address used inside the "from" field for the password reset email
+# "mail_subject" email subject used for the password reset email
 #[app]
-#base_url = http://localhost
 #secret_key = kc32r&qnpj6_!^vp5$pq35buom!54%f&_6zk8p$3yrgf8nvlgx
 #admin_user = cn=admin_user,ou=admin,ou=People,dc=example,dc=org
 #admin_pass = secret_admin_password
 #mail_relay = mail.example.org
-#mail_sender = ldappw@example.org
+#mail_sender = no-reply@example.org
 #mail_subject = Password reset request
