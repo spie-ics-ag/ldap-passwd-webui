@@ -82,7 +82,7 @@ def send_email(password_reset_url, mail):
     msg['Subject'] = CONF['app']['mail_subject']
     msg['From'] = CONF['app']['mail_sender']
     msg['To'] = mail
-    msg.set_content(request.urlparts[0] + "://" + request.urlparts[1] + password_reset_url)
+    msg.set_content("https://" + request.urlparts[1].split(',')[0] + password_reset_url)
 
     s = smtplib.SMTP(CONF['app']['mail_relay'])
     s.send_message(msg)
