@@ -49,7 +49,8 @@ def post_index():
         change_passwords(form('username'), form('old-password'), form('new-password'))
     except Error as e:
         LOG.warning("Unsuccessful attempt to change password for %s: %s" % (form('username'), e))
-        return error(str(e))
+        return error("The password must be at least 8 or more characters long. It must contain at least one uppercase letter, one lowercase letter, one number and one character.")
+
 
     LOG.info("Password successfully changed for: %s" % form('username'))
 
